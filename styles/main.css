@@ -1,0 +1,70 @@
+/*
+
+    Responsive breakpoints (https://getbootstrap.com/docs/5.0/layout/breakpoints/) : 
+    - xsmall: < 576px (36rem)
+    - small >= 576px (36rem)
+    - medium >= 768px (48rem)
+    - large >= 992px (62rem)
+    - extra large >= 1200px (75rem)
+    - extra, extra large >= 1400px (87.5rem)
+*/
+html, body {
+    height: 100%;
+    margin: 0;
+}
+* {
+    border: solid 1px black;
+}
+body {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "beer-nav main beer-aside"
+        "footer footer footer"
+    ;
+    grid-template-columns: 2rem 1fr 2rem;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+}
+
+.beer-aside {
+    grid-area: beer-aside
+}
+
+.beer-nav {
+    grid-area: beer-nav
+}
+footer {
+    background-color: #999;
+    grid-area: footer;
+    min-height: 3rem;
+}
+input + .user-hint {
+    visibility: hidden;
+}
+input:user-invalid + .user-hint {
+    visibility: visible;
+}
+label, input {
+    display: block; 
+}
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    grid-area: header;
+}
+.page-header > div {
+    flex: 1 1 50%;
+    max-width: 3rem;
+}
+
+@media screen and (min-width: 36rem) {
+    main {
+        grid-area: main;
+        margin: 0 auto;
+        max-width: 34rem;
+        width: 100%;
+        
+    }
+}

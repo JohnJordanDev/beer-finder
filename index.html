@@ -4,57 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beer Finder</title>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        * {
-            border: solid 1px black;
-        }
-        body {
-            box-sizing: border-box;
-            display: grid;
-            grid-template-areas: 
-                "header header header"
-                "beer-nav main beer-aside"
-                "footer footer footer"
-            ;
-            grid-template-columns: 2rem 1fr 2rem;
-            grid-template-rows: auto 1fr auto;
-            margin: 0;
-        }
-
-        .beer-aside {
-            grid-area: beer-aside
-        }
-
-        .beer-nav {
-            grid-area: beer-nav
-        }
-        footer {
-            background-color: #999;
-            grid-area: footer;
-            min-height: 3rem;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            grid-area: header;
-        }
-        header > div {
-            flex: 1 1 50%;
-            max-width: 3rem;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <header>
+    <header class="page-header">
         <div><img alt="LOGO" src=""></div>
         <div><a href="">Home</a> <a href="">This Page</a></div>
     </header>
-    <nav class="beer-nav"></nav>
-    <main></main>
+    <aside></aside>
+    <main>
+        <header>
+        </header>
+    </main>
     <aside></aside>
     <footer>
         this is some content in the footer!
