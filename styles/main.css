@@ -36,6 +36,13 @@ body {
 .beer-nav {
     grid-area: beer-nav
 }
+.form-field {
+    display: flex;
+}
+.form-field > input {
+    align-items: center;
+    flex: 1 1 100%;
+}
 footer {
     background-color: #999;
     grid-area: footer;
@@ -44,14 +51,8 @@ footer {
 input {
     display: inline-block;
     min-height: 2rem;
-    min-width: 100%;
 }
-input + .user-hint {
-    visibility: hidden;
-}
-input:user-invalid + .user-hint {
-    visibility: visible;
-}
+
 label, input {
     display: block; 
 }
@@ -86,5 +87,10 @@ noscript {
         max-width: 34rem;
         width: 100%;
         
+    }
+
+    #search_form_wrapper {
+        margin: 0 auto;
+        max-width: 20rem;
     }
 }
