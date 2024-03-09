@@ -18,6 +18,7 @@ html, body {
 body {
     box-sizing: border-box;
     display: grid;
+    font-family: sans-serif;
     grid-template-areas: 
         "header header header"
         "beer-nav main beer-aside"
@@ -40,6 +41,11 @@ footer {
     grid-area: footer;
     min-height: 3rem;
 }
+input {
+    display: inline-block;
+    min-height: 2rem;
+    min-width: 100%;
+}
 input + .user-hint {
     visibility: hidden;
 }
@@ -48,6 +54,15 @@ input:user-invalid + .user-hint {
 }
 label, input {
     display: block; 
+}
+
+noscript {
+    background: #eee;
+    border: solid 0.125rem black;
+    display: block;
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: fit-content;
 }
 .page-header {
     display: flex;
@@ -60,6 +75,11 @@ label, input {
 }
 
 @media screen and (min-width: 36rem) {
+    input {
+        display: inline-block;
+        min-height: 2rem;
+        min-width: 18rem;
+    }
     main {
         grid-area: main;
         margin: 0 auto;
