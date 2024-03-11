@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Budweiser",
+        "brewery":"Annasbacher-Busch",
+        "rating": 3
+    },
+    {
+        "name": "Budvar",
+        "brewery":"Czech Brewery",
+        "rating": 4.5
+    },
+    {
+        "name": "Guinness",
+        "brewery":"Diageo",
+        "rating": 4
+    },
+    {
+        "name": "Death & Taxes",
+        "brewery":"Moonlight Brewing",
+        "rating": 5
+    }
+]

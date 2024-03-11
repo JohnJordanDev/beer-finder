@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beer Finder</title>
     <link rel="stylesheet" href="styles/main.css">
+    <script defer src="scripts/vendor/lunr.js"></script>
     <script defer src="scripts/main.js"></script>
 </head>
 <body>
@@ -24,6 +25,12 @@
                 </noscript>
             </div>
         </header>
+        <section id="results_container">
+            <h2>Search Results</h2>
+            <p id="results_message">
+                Results will appear here (once you search for something).
+            </p>
+        </section>
     </main>
     <aside></aside>
     <footer>
