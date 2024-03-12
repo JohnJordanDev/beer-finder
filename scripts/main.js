@@ -11,6 +11,10 @@
             `;
         };
 
+        const replaceShortTerms = searchPhrase => {
+            return searchPhrase.split(" ").filter(w => 3 <= w.length).join(" ");
+        };
+
         const dbReq = await fetch("../db/beers.json");
         if(200 !== dbReq.status){
             document.getElementById("search_form_wrapper").innerHTML = `
@@ -32,7 +36,7 @@
         });
 
         document.getElementById("search_form_wrapper").innerHTML = `
-        <form action=""  id="search_term_form" method="GET">
+        <form action="" id="search_term_form" method="GET">
             <label for="search_term">Beer Name / Brewery / Location / Type etc.</label>
             <div class="form-field">
                 <span>&#x1F50E;&#xFE0E;</span>
@@ -43,27 +47,31 @@
 
         const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ul")); 
 
-
-        document.getElementById("search_term_form").addEventListener("submit", e => {
+        document.getElementById("search_term_form").addEventListener("input", async (e) => {
             e.preventDefault();
-            const st = e.target.elements[0];
+            // trim to prevent "stemming" of new words, esp. with * selector on empty string
+            const valueToSearch = replaceShortTerms(e.target.value.trim());
+ 
+            RESULTS_LIST.innerHTML = "";
+    
+            if(3 > valueToSearch.length) return;
             resultsMsg.innerText = "Searching...";
-                RESULTS_LIST.innerHTML = "";
 
-                let idxResult = IDX.search(st.value), idxResultWild = IDX.search(`${st.value}*`);
-                if(idxResultWild.length > idxResult.length) {
-                    idxResult = idxResultWild;
-                }
-                if(!idxResult.length){
-                    return resultsMsg.innerText = `No results for "${st.value}".\n\nTry searching for something else.`;
-                }
+            let idxResult = IDX.search(valueToSearch), idxResultWild = IDX.search(`${valueToSearch}*`);
+            console.log(idxResultWild)
+            if(idxResultWild.length > idxResult.length) {
+                idxResult = idxResultWild;
+            }
+            if(!idxResult.length){
+                return resultsMsg.innerText = `No results for "${valueToSearch}".\n\nTry searching for something else.`;
+            }
 
-                resultsMsg.innerText = "Results found:";
-                idxResult.map(r => {
-                    const IDX_Pos = r.ref, l = document.createElement("li");
-                    l.innerHTML = getResultCard(BEERS[IDX_Pos]);
-                    RESULTS_LIST.append(l);
-                });
+            resultsMsg.innerText = "Results found:";
+            idxResult.map(r => {
+                const IDX_Pos = r.ref, l = document.createElement("li");
+                l.innerHTML = getResultCard(BEERS[IDX_Pos]);
+                RESULTS_LIST.append(l);
+            });
             
         });
     } catch(e) {

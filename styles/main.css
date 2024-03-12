@@ -8,7 +8,7 @@
     - extra large >= 1200px (75rem)
     - extra, extra large >= 1400px (87.5rem)
 */
-html, body {
+html {
     height: 100%;
     margin: 0;
 }
@@ -27,6 +27,7 @@ body {
     grid-template-columns: 2rem 1fr 2rem;
     grid-template-rows: auto 1fr auto;
     margin: 0;
+    min-height: 100%;
 }
 
 .beer-aside {
