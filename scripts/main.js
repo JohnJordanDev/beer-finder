@@ -1,12 +1,33 @@
 ;(async function form (){
     try {
-        const resultsContainer = document.getElementById("results_container"), resultsMsg = document.getElementById("results_message");
+        const RATINGS = {
+            "Top Class": 5,
+            "Excellent": 4.5,
+            "Very Good": 4.0,
+            "Good": 3.5,
+            "Okay": 3.0
+        };
+        const resultsContainer = document.getElementById("results_container"), 
+            resultsMsg = document.getElementById("results_message");
+
+        const getAlcoholPerCent = perCent => {
+            return perCent ? perCent :"-.-";
+        };
+        const getRating = rating => {
+            return RATINGS[rating] ? RATINGS[rating] : "?";
+        };
+
         const getResultCard = b => {
             return `
                 <article>
+                    <img alt="${b.Name}" />
                     <h3>${b.Name}</h3>
-                    <p>${b.Brewery}</p>
-                    <p>Rating: ${b.Rating}/5</p>
+                    <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
+                    <p>${b.Type}</p>
+                    <div class="ratings">
+                        <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
+                        <p>${getRating(b.Rating)}/5</p>
+                    </div>
                 </article>
             `;
         };
@@ -24,6 +45,13 @@
         }
         const BEERS = (await dbReq.json());
         console.log("Beers are: ", BEERS);
+        console.log(Object.entries(BEERS).forEach(e => {
+            const type = e[1].Rating;
+            if(!RATINGS[type]) {
+                RATINGS[type] = type;
+                console.log(RATINGS)
+            }
+        }));
 
         const IDX = lunr(function() {
             // position is added to the individual beer record later...
@@ -48,7 +76,7 @@
             <small id="search_notes">Wildcard * is valid, e.g. "*berg" returns "Carlsberg".</small>
         </form>`;
 
-        const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ul")); 
+        const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ol")); 
 
         document.getElementById("search_term_form").addEventListener("input", async (e) => {
             e.preventDefault();
