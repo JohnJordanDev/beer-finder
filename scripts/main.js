@@ -39,7 +39,7 @@
             return searchPhrase.split(" ").filter(w => 1 <= w.length).join(" ");
         };
 
-        const dbReq = await fetch("../db/beer-list.json");
+        const dbReq = await fetch("db/beer-list.json");
         if(200 !== dbReq.status){
             document.getElementById("search_form_wrapper").innerHTML = `
             <h1>Error: ${dbReq.status}</h1>
