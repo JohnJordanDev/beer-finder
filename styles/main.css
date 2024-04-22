@@ -19,10 +19,6 @@ h1,h2,h3,h4,p {
     margin: 0;
 }
 
-article > img {
-    display: block;
-    min-height: 4rem;
-}
 body {
     box-sizing: border-box;
     display: grid;
@@ -38,8 +34,23 @@ body {
     min-height: 100%;
 }
 
+
+article > img, dialog > img {
+	background: aliceblue;
+    display: block;
+    min-height: 4rem;
+}
+
+article > div, article > footer {
+	padding: 0 1rem;
+}
+
 .beer-aside {
     grid-area: beer-aside
+}
+/*TODO: add styles here*/
+.beer-info {
+	
 }
 
 .beer-nav {
@@ -49,6 +60,26 @@ body {
 .brewery-note > span {
     color: #999;
     font-style: italic;
+}
+
+dialog {
+	box-sizing: border-box;
+	max-width: 100%;
+	padding: 1rem;
+	width: 24rem;
+}
+
+dialog::backdrop {
+	background: rgba(0,0,0,0.25);
+}
+
+form[method="dialog"] {
+	text-align: right;
+}
+
+form[method="dialog"] > button {
+	font-size: 1.25rem;
+	padding: 0;
 }
 
 .form-field {
@@ -62,6 +93,9 @@ footer {
     background-color: #999;
     grid-area: footer;
     min-height: 3rem;
+}
+article > footer {
+	background: none;
 }
 input {
     display: inline-block;

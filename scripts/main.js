@@ -21,13 +21,16 @@
             return `
                 <article>
                     <img alt="${b.Name}" />
-                    <h3>${b.Name}</h3>
-                    <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
-                    <p>${b.Type}</p>
-                    <div class="ratings">
-                        <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
-                        <p>${getRating(b.Rating)}/5</p>
+                    <div class="beer-info">
+                        <h3>${b.Name}</h3>
+                        <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
+                        <p>${b.Type}</p>
+                        <div class="ratings">
+                            <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
+                            <p>${getRating(b.Rating)}/5</p>
+                        </div>
                     </div>
+                    <footer><a href="#" data-action="modal:open" data-position="${b.position}">Read more…</a></footer>
                 </article>
             `;
         };
@@ -49,7 +52,6 @@
             const type = e[1].Rating;
             if(!RATINGS[type]) {
                 RATINGS[type] = type;
-                console.log(RATINGS)
             }
         }));
 
@@ -63,6 +65,7 @@
             // .. position added here.
             BEERS.forEach((b, i) => {
               this.add({...b, position: i});  
+              b.position = i;
             }, this);
         });
 
@@ -76,7 +79,59 @@
             <small id="search_notes">Wildcard * is valid, e.g. "*berg" returns "Carlsberg".</small>
         </form>`;
 
+
+
+        // Beer modal behavior (closing handled via form[method=dialog])
+        const getBeerModalContent = b => {
+            return `
+            <div><form method="dialog"><button id="close_modal" autofocus>✖</button></form></div>
+            <img alt="${b.Name}" />
+            <h3>${b.Name}</h3>
+            <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
+            <p>${b.Type}</p>
+            <div class="ratings">
+                <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
+                <p>${getRating(b.Rating)}/5</p>
+            </div>
+            <hr>
+            <h4>Description/Review:</h4>
+            <p><br>${b.Description}</p>
+            `;
+        };
+
+        const BEER_MODAL = document.createElement("dialog");
+        BEER_MODAL.innerHTML = `
+            <div data-action="focus:trap" tabindex="0"></div>
+            <div id="modal_content"></div>
+            <div data-action="focus:trap" tabindex="0"></div>
+        `;
+
+        document.body.appendChild(BEER_MODAL);
+
+        const focusTrapHandler = elem => {
+            elem.addEventListener("focus", e => {
+                if("focus:trap" === e.target.dataset.action) {
+                    BEER_MODAL.querySelector("#close_modal").focus();
+                }
+            });
+        };
+
+        BEER_MODAL.querySelectorAll(`[data-action="focus:trap"]`).forEach(focusTrapHandler);
+
+        const BEER_MODAL_CONTENT = BEER_MODAL.querySelector("#modal_content");
         const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ol")); 
+        RESULTS_LIST.addEventListener("click", e => {
+            e.preventDefault();
+            const ct = e.target, beerListPos = parseInt(ct.dataset.position, 10);
+            if("modal:open" === ct.dataset.action && beerListPos === beerListPos) {
+                const b = BEERS[ct.dataset.position];
+                BEER_MODAL_CONTENT.innerHTML = getBeerModalContent(b);
+                BEER_MODAL.showModal();
+            }
+        });
+
+
+        // Search logic
 
         document.getElementById("search_term_form").addEventListener("input", async (e) => {
             e.preventDefault();
