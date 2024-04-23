@@ -78,6 +78,7 @@
             </div>
             <small id="search_notes">Wildcard * is valid, e.g. "*berg" returns "Carlsberg".</small>
         </form>`;
+        document.getElementById("search_term_form").addEventListener("submit", (e) => e.preventDefault());
 
 
 
@@ -115,15 +116,28 @@
                 }
             });
         };
-
         BEER_MODAL.querySelectorAll(`[data-action="focus:trap"]`).forEach(focusTrapHandler);
+
+        const modalClickHandler = (e) =>{
+          var rect = e.target.getBoundingClientRect();
+          const outTop = e.clientY < rect.top, 
+            outRight = e.clientX > rect.right, 
+            outBottom = e.clientY > rect.bottom, 
+            outLeft = e.clientX < rect.left;
+          console.log(outTop, outRight, outBottom, outLeft);
+          if(outTop || outRight || outLeft || outBottom) {
+            BEER_MODAL.close();
+          }
+        };
+        BEER_MODAL.addEventListener("click", modalClickHandler);
 
         const BEER_MODAL_CONTENT = BEER_MODAL.querySelector("#modal_content");
         const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ol")); 
+
         RESULTS_LIST.addEventListener("click", e => {
             e.preventDefault();
-            const ct = e.target, beerListPos = parseInt(ct.dataset.position, 10);
-            if("modal:open" === ct.dataset.action && beerListPos === beerListPos) {
+            const ct = e.target, beerListPos = parseInt(ct.dataset?.position, 10);
+            if("modal:open" === ct.dataset?.action && beerListPos === beerListPos) {
                 const b = BEERS[ct.dataset.position];
                 BEER_MODAL_CONTENT.innerHTML = getBeerModalContent(b);
                 BEER_MODAL.showModal();
@@ -133,34 +147,36 @@
 
         // Search logic
 
-        document.getElementById("search_term_form").addEventListener("input", async (e) => {
-            e.preventDefault();
-            // trim to prevent "stemming" of new words, esp. with * selector on empty string
-            const valueToSearch = replaceShortTerms(e.target.value.trim());
-            if(!valueToSearch) {
-                resultsMsg.innerText = "Results will appear here (once you search for something)."
-            }
- 
-            RESULTS_LIST.innerHTML = "";
-            if(3 > valueToSearch.length) return;
-            
-            resultsMsg.innerText = "Searching...";
-            let idxResult = IDX.search(valueToSearch), idxResultWild = IDX.search(`${valueToSearch}*`);
-            if(idxResultWild.length > idxResult.length) {
-                idxResult = idxResultWild;
-            }
-            if(!idxResult.length){
-                return resultsMsg.innerText = `No results for "${valueToSearch}".\n\nTry searching for something else.`;
-            }
+        document
+            .getElementById("search_term_form")
+            .addEventListener("input", async (e) => {
+                e.preventDefault();
+                // trim to prevent "stemming" of new words, esp. with * selector on empty string
+                const valueToSearch = replaceShortTerms(e.target.value.trim());
+                if(!valueToSearch) {
+                    resultsMsg.innerText = "Results will appear here (once you search for something)."
+                }
+     
+                RESULTS_LIST.innerHTML = "";
+                if(3 > valueToSearch.length) return;
+                
+                resultsMsg.innerText = "Searching...";
+                let idxResult = IDX.search(valueToSearch), idxResultWild = IDX.search(`${valueToSearch}*`);
+                if(idxResultWild.length > idxResult.length) {
+                    idxResult = idxResultWild;
+                }
+                if(!idxResult.length){
+                    return resultsMsg.innerText = `No results for "${valueToSearch}".\n\nTry searching for something else.`;
+                }
 
-            resultsMsg.innerText = "Results found:";
-            idxResult.map(r => {
-                const IDX_Pos = r.ref, l = document.createElement("li");
-                l.innerHTML = getResultCard(BEERS[IDX_Pos]);
-                RESULTS_LIST.append(l);
+                resultsMsg.innerText = "Results found:";
+                idxResult.map(r => {
+                    const IDX_Pos = r.ref, l = document.createElement("li");
+                    l.innerHTML = getResultCard(BEERS[IDX_Pos]);
+                    RESULTS_LIST.append(l);
+                });
+                
             });
-            
-        });
     } catch(e) {
         console.error(`error in 'form' module: ${e.toString()}`);
     }
