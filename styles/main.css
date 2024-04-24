@@ -41,8 +41,14 @@ article > img, dialog > img {
     min-height: 4rem;
 }
 
-article > div, article > footer {
+article > div {
 	padding: 0 1rem;
+}
+
+article > footer {
+	align-items: center;
+	display: flex;
+	justify-content: center;
 }
 
 .beer-aside {
@@ -112,7 +118,9 @@ li {
 
 main > header {
     background-color: white;
+    margin-bottom: 1.5rem;
     position: sticky;
+    text-align: center;
     top: 0;
 }
 
@@ -152,10 +160,12 @@ ol {
     }
     main {
         grid-area: main;
-        margin: 0 auto;
-        max-width: 34rem;
         width: 100%;
-        
+    }
+
+    main > section {
+    	margin: 0 auto;
+   		max-width: 34rem;
     }
 
     #search_form_wrapper {

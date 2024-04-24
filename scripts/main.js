@@ -30,7 +30,7 @@
                             <p>${getRating(b.Rating)}/5</p>
                         </div>
                     </div>
-                    <footer><a href="#" data-action="modal:open" data-position="${b.position}">Read more…</a></footer>
+                    <footer><button href="#" data-action="modal:open" data-position="${b.position}">Read more…</button></footer>
                 </article>
             `;
         };
@@ -60,8 +60,6 @@
             this.ref("position");
             this.field("Name");
             this.field("Brewery");
-            this.field("Rating");
-            this.field("Type");
             // .. position added here.
             BEERS.forEach((b, i) => {
               this.add({...b, position: i});  
@@ -74,9 +72,8 @@
             <label for="search_term">Name / Brewery / Location / Type</label>
             <div class="form-field">
                 <span>&#x1F50E;&#xFE0E;</span>
-                <input aria-describedby="search_notes" id="search_term" minlength="3" name="search-term" placeholder=" Enter something, anything!" required title="E.g. 'Bud'" type="search">
+                <input id="search_term" minlength="3" name="search-term" placeholder=" Enter something!" required title="E.g. 'Lager' " type="search">
             </div>
-            <small id="search_notes">Wildcard * is valid, e.g. "*berg" returns "Carlsberg".</small>
         </form>`;
         document.getElementById("search_term_form").addEventListener("submit", (e) => e.preventDefault());
 
@@ -134,15 +131,15 @@
         const BEER_MODAL_CONTENT = BEER_MODAL.querySelector("#modal_content");
         const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ol")); 
 
-        RESULTS_LIST.addEventListener("click", e => {
+        const resultsListClickHandler = e => {
             e.preventDefault();
             const ct = e.target, beerListPos = parseInt(ct.dataset?.position, 10);
             if("modal:open" === ct.dataset?.action && beerListPos === beerListPos) {
-                const b = BEERS[ct.dataset.position];
-                BEER_MODAL_CONTENT.innerHTML = getBeerModalContent(b);
+                BEER_MODAL_CONTENT.innerHTML = getBeerModalContent(BEERS[ct.dataset.position]);
                 BEER_MODAL.showModal();
             }
-        });
+        };
+        RESULTS_LIST.addEventListener("click", resultsListClickHandler);
 
 
         // Search logic
