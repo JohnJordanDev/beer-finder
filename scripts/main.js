@@ -1,3 +1,16 @@
+/*
+    TODO:
+    - Add "flavor" tab, with following flavors:
+        - crisp & clean
+        - hoppy or bitter
+        - malty or sweet
+        - roasted or smokey
+        - fruity or spiced
+        - sour or funky
+        as radio button
+
+    - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
+*/
 ;(async function form (){
     try {
         const RATINGS = {
