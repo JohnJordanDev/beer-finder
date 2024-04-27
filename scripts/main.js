@@ -11,6 +11,19 @@
 
     - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
 */
+const FLAVOR_TYPE = {
+    crisp_and_clean: {
+        delicate_fruit: [],
+        malt_accented: [],
+        brisk_hoppiness: []
+    },
+    hoppy_and_bitter: {},
+    malty_and_sweet: {},
+    roasted_and_smoked: {},
+    fruited_and_spiced: {},
+    sour_and_funky: {}
+
+};
 ;(async function form (){
     try {
         const RATINGS = {
@@ -142,7 +155,9 @@
         BEER_MODAL.addEventListener("click", modalClickHandler);
 
         const BEER_MODAL_CONTENT = BEER_MODAL.querySelector("#modal_content");
-        const RESULTS_LIST = resultsContainer.appendChild(document.createElement("ol")); 
+        const RESULTS_LIST = resultsContainer
+            .appendChild(document.createElement("output"))
+            .appendChild(document.createElement("ol")); 
 
         const resultsListClickHandler = e => {
             e.preventDefault();
@@ -152,8 +167,7 @@
                 BEER_MODAL.showModal();
             }
         };
-        RESULTS_LIST.addEventListener("click", resultsListClickHandler);
-
+        RESULTS_LIST.addEventListener("click", resultsListClickHandler); 
 
         // Search logic
 
@@ -189,5 +203,10 @@
             });
     } catch(e) {
         console.error(`error in 'form' module: ${e.toString()}`);
+        const m = document.getElementById("results_message"), h = m.previousElementSibling;
+        h.innerText = "An Error Occurred!";
+        m.innerText = e.toString();
+        document.getElementById("search_form_wrapper").style.display = "none";
+
     }
 }());
