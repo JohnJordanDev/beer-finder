@@ -152,6 +152,14 @@ ol {
     justify-content: space-between;
 }
 
+.tabs {
+	display: flex;
+}
+.tabs > button {
+	flex: 1 1 50%;
+	margin: 0 1.5rem;
+}
+
 @media screen and (min-width: 36rem) {
     input {
         display: inline-block;

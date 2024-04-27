@@ -24,6 +24,54 @@ const FLAVOR_TYPE = {
     sour_and_funky: {}
 
 };
+
+try {
+    const setSelectedTab = (tabButtons, tabButtonSelected) => {
+        if("tab" !== tabButtonSelected.getAttribute("role")){
+            return;
+        }
+        tabButtons.forEach(tb => {
+            if(tb.id === tabButtonSelected.id){
+                tb.setAttribute("aria-selected", true);
+                tb.classList.add("active-tab");
+                return;
+            }
+            tb.setAttribute("aria-selected", false);
+            tb.classList.remove("active-tab");
+        });
+    };
+
+    const setToSelectedTab = (tabPanels = [], tab = "tab-1") => {
+        tabPanels.forEach(tp => {
+            if(tab === tp.getAttribute("aria-labelledby")) {
+                return tp.style.display = "block";
+            }
+            tp.style.display = "none";
+        });
+    };
+
+    const TAB_NAV = document.getElementById("tab_nav"), 
+        TABS = TAB_NAV.querySelectorAll("button"), 
+        TAB_PANELS = document.querySelectorAll("[role='tabpanel']");
+
+    setToSelectedTab(TAB_PANELS);
+    setSelectedTab(TABS, TABS[0]);
+
+
+    const handleTabClick = ev => {
+        const tab = ev.target;
+        if("tab" !== tab.getAttribute("role")){
+            return;
+        }
+        setSelectedTab(TABS, tab);
+        setToSelectedTab(TAB_PANELS, tab.id);
+    };
+    TAB_NAV.addEventListener("click", handleTabClick);
+    
+
+} catch(e) {
+
+}
 ;(async function form (){
     try {
         const RATINGS = {
@@ -33,8 +81,8 @@ const FLAVOR_TYPE = {
             "Good": 3.5,
             "Okay": 3.0
         };
-        const resultsContainer = document.getElementById("results_container"), 
-            resultsMsg = document.getElementById("results_message");
+        const resultsContainer = document.getElementById("term_results_container"), 
+            resultsMsg = document.getElementById("term_results_message");
 
         const getAlcoholPerCent = perCent => {
             return perCent ? perCent :"-.-";
@@ -92,13 +140,13 @@ const FLAVOR_TYPE = {
               b.position = i;
             }, this);
         });
-
+        const inputSearchName = "search-term";
         document.getElementById("search_form_wrapper").innerHTML = `
         <form action="" id="search_term_form" method="GET">
-            <label for="search_term">Name / Brewery / Location / Type</label>
+            <label for="search_term">Beer Name or Brewery</label>
             <div class="form-field">
                 <span>&#x1F50E;&#xFE0E;</span>
-                <input id="search_term" minlength="3" name="search-term" placeholder=" Enter something!" required title="E.g. 'Lager' " type="search">
+                <input id="search_term" minlength="3" name="${inputSearchName}" placeholder=" Enter something!" required title="E.g. 'Lager' " type="search">
             </div>
         </form>`;
         document.getElementById("search_term_form").addEventListener("submit", (e) => e.preventDefault());
@@ -158,6 +206,7 @@ const FLAVOR_TYPE = {
         const RESULTS_LIST = resultsContainer
             .appendChild(document.createElement("output"))
             .appendChild(document.createElement("ol")); 
+        resultsContainer.querySelector("output").setAttribute("for", inputSearchName);
 
         const resultsListClickHandler = e => {
             e.preventDefault();
@@ -203,7 +252,7 @@ const FLAVOR_TYPE = {
             });
     } catch(e) {
         console.error(`error in 'form' module: ${e.toString()}`);
-        const m = document.getElementById("results_message"), h = m.previousElementSibling;
+        const m = document.getElementById("term_results_message"), h = m.previousElementSibling;
         h.innerText = "An Error Occurred!";
         m.innerText = e.toString();
         document.getElementById("search_form_wrapper").style.display = "none";

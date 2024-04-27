@@ -17,6 +17,15 @@
     <main>
         <header>
             <h1>Beer Finder</h1>
+            
+        </header>
+        <hr>
+        <nav id="tab_nav" class="tabs">
+            <button aria-controls="results_container" aria-selected="true" id="tab-1" role="tab" tabindex="0">Name</button>
+            <button aria-controls="results_container" aria-selected="false" id="tab-2" role="tab" tabindex="0">Flavor</button>
+        </nav>
+        <section aria-labelledby="tab-1" id="term_results_container" role="tabpanel" tabindex="0">
+            <h2>Search by Name</h2>
             <div id="search_form_wrapper">
                 <noscript>
                     <p>This form needs JavaScript to work!</p>
@@ -24,11 +33,22 @@
                     <p>Learn how to turn on JavaScript in your browser ({YourBrowser})</p>
                 </noscript>
             </div>
-        </header>
-        <hr>
-        <section id="results_container">
-            <h2>Search Results</h2>
-            <p id="results_message">
+            <h3>Search Results</h3>
+            <p id="term_results_message">
+                Results will appear here (once you search for something).
+            </p>
+        </section>
+         <section aria-labelledby="tab-2" id="term_results_container" role="tabpanel" tabindex="0">
+            <h2>Search by Flavor</h2>
+            <div id="flavor_form_wrapper">
+                <noscript>
+                    <p>This form needs JavaScript to work!</p>
+                    <p>Seems like JavaScript is disabled in this browser.</p>
+                    <p>Learn how to turn on JavaScript in your browser ({YourBrowser})</p>
+                </noscript>
+            </div>
+            <h3>Search Results</h3>
+            <p id="flavor_results_message">
                 Results will appear here (once you search for something).
             </p>
         </section>
