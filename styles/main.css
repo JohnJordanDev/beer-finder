@@ -34,6 +34,11 @@ body {
     min-height: 100%;
 }
 
+.active-tab {
+	background: #000;
+	color: #FFF;
+}
+
 
 article > img, dialog > img {
 	background: aliceblue;
@@ -147,6 +152,22 @@ ol {
     max-width: 3rem;
 }
 
+.radio {
+	align-items: center;
+	display: flex;
+	margin-bottom: 1rem;
+}
+
+.radio > input {
+	margin: 0 1rem;
+	min-width: 1.25rem;
+}
+
+.radio > small {
+	font-style: italic;
+	margin: 0 0.5rem;
+}
+
 .ratings {
     display: flex;
     justify-content: space-between;
@@ -161,7 +182,7 @@ ol {
 }
 
 @media screen and (min-width: 36rem) {
-    input {
+    input[type="search"] {
         display: inline-block;
         min-height: 2rem;
         min-width: 18rem;
