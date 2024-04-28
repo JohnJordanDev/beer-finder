@@ -84,6 +84,11 @@ dialog::backdrop {
 	background: rgba(0,0,0,0.25);
 }
 
+.flavor {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 form[method="dialog"] {
 	text-align: right;
 }
@@ -114,6 +119,7 @@ input {
 }
 
 label, input {
+	box-sizing: border-box;
     display: block; 
 }
 
@@ -155,7 +161,12 @@ ol {
 .radio {
 	align-items: center;
 	display: flex;
+	flex: 1 1 50%;
 	margin-bottom: 1rem;
+}
+
+.radio:last-of-type {
+	flex: 1 1 100%;
 }
 
 .radio > input {

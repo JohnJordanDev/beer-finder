@@ -12,38 +12,69 @@
     - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
 */
 const FLAVOR_TYPE = {
-    crisp_or_clean: {
+    crisp: {
         description: "Crisp beers are lighter, cleaner in flavor, and crisply refreshing. They range in color from straw to amber, have low to medium abvs, and are light to medium in body.",
         subtypes: {
-            fruity: [
-                "Ale - Cream",
-                "Ale - English Blonde",
-                "Ale - American Blonde",
-                "Ale - Wheat",
-                "Kölsch"
-            ],
-            malty: [
-                "Bock - Helles",
-                "Lager - Pale",
-                "Lager - Helles",
-                "Lager - Amber",
-                "Lager - Vienna",
-                "Lager - Märzen"
-            ],
-            hoppy: [
-                "Pilsner",
-                "Pilsner - Imperial",
-                "Lager - Kellerbier/ Zwickelbier",
-                "Lager - India Pale"
-            ]
+            fruity: {
+                description: "While not particularly malty or hoppy, these styles show a bit of fruit flavor—like green apple, berries or pear—from the employment of ale yeast.",
+                style_list: [
+                    "Ale - Cream",
+                    "Ale - English Blonde",
+                    "Ale - American Blonde",
+                    "Ale - Wheat",
+                    "Kölsch"
+                ]
+            },
+            malty: {
+                description: "Lacking the fruit and spice aromatics of most ales and showcasing a much milder hop profile than Pilsners, these brews demonstrate a full bready, almost biscuity, malt flavor in addition to their crisp dispositions.",
+                style_list: [
+                    "Bock - Helles",
+                    "Lager - Pale",
+                    "Lager - Helles",
+                    "Lager - Amber",
+                    "Lager - Vienna",
+                    "Lager - Märzen"
+                ]
+            },
+            hoppy: {
+                description: "A more emphatic hop regiment, typically employing German and Czech-grown hops (often referred to as Noble hops), results in crisp and refreshing brews that are drier and snappier in the finish, with spicy, herbal, and floral aromas abounding.", 
+                style_list: [
+                    "Pilsner",
+                    "Pilsner - Imperial",
+                    "Lager - Kellerbier/ Zwickelbier",
+                    "Lager - India Pale"
+                ]
+            }
         }
     },
-    hoppy_or_bitter: {},
-    malty_or_sweet: {},
-    roasted_or_smoked: {},
-    fruity_or_spiced: {},
-    sour_and_funky: {}
-
+    hoppy: {
+        description: "",
+        subtypes: {
+            earthy_and_dry: {
+                description: "",
+                style_list: [
+                
+                ]
+            },
+            malty: {
+                description: "",
+                style_list: [
+                
+                ]
+            },
+            herbal_and_citric: {
+                description: "",
+                style_list: [
+                
+                ]
+            }
+        }
+    },
+    malty: {},
+    roasted: {},
+    smoked: {},
+    sour: {},
+    fruity_or_spiced: {}
 };
 
 try {
@@ -107,6 +138,7 @@ let BEERS;
         };
         const resultsContainer = document.getElementById("term_results_container"), 
             resultsMsg = document.getElementById("term_results_message");
+
 
         const getAlcoholPerCent = perCent => {
             return perCent ? perCent :"-.-";
@@ -292,23 +324,29 @@ let BEERS;
             let output = `<h4>${nameOfFlavor}</h4>
                 <p>${flavor.description}</p>`;
             const subTypes = flavor.subtypes;
-            for(const subtype in subTypes){
-                output += `<h5>${subtype}</h5>
+            console.log(subTypes);
+            for(const subType in subTypes){
+                console.log(subType);
+                output += `
+                <h5>${subType}</h5>
+                    <p>${subTypes[subType].description}</p>
                     <ul>`;
-                subTypes[subtype].forEach(st => {
+                subTypes[subType].style_list.forEach(st => {
                     output += `<li>${st}</li>`;
                 });
                 output += "</ul>";
             }
             return output;
         };
-        const flavorForm = `<form action="" method="GET">
-            <label class="radio"><input checked name="flavor" type="radio" value="crisp_or_clean">Crisp <small>or</small> Clean</label>
-            <label class="radio"><input name="flavor" type="radio" value="hoppy_or_bitter">Hoppy <small>or</small> Bitter</label>
-            <label class="radio"><input name="flavor" type="radio" value="malty_or_sweet">Malty <small>or</small> Sweet</label>
-            <label class="radio"><input name="flavor" type="radio" value="roasted_or_smoked">Roasted <small>or</small> Smoked</label>
-            <label class="radio"><input name="flavor" type="radio" value="fruity_or_spiced">Fruity <small>or</small> Spiced</label>
-            <label class="radio"><input name="flavor" type="radio" value="sour_or_funky">Sour <small>or</small> Funky</label>
+        const flavorForm = `
+        <form action="" class="flavor" method="GET">
+            <label class="radio"><input checked name="flavor" type="radio" value="crisp">Crisp</label>
+            <label class="radio"><input name="flavor" type="radio" value="hoppy">Hoppy</label>
+            <label class="radio"><input name="flavor" type="radio" value="malty">Malty</label>
+            <label class="radio"><input name="flavor" type="radio" value="roasted">Roasted</label>
+            <label class="radio"><input name="flavor" type="radio" value="Smoked">Smoked</label>
+            <label class="radio"><input name="flavor" type="radio" value="sour">Sour</label>
+            <label class="radio"><input name="flavor" type="radio" value="fruity_or_spiced">Fruity <small>and/or</small> Spiced</label>
         </form>`;
         const formWrapper = document.getElementById("flavor_form_wrapper");
         formWrapper.innerHTML = flavorForm;
