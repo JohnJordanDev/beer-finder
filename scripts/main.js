@@ -48,24 +48,33 @@ const FLAVOR_TYPE = {
         }
     },
     hoppy: {
-        description: "",
+        description: "These brews are all about the delicious aromas and pronounced bitterness derived from generous additions of hops. Though typically endowed with some malt richness, hops in these brews will always provide the most intense flavor contribution. These beers range from medium to full bodied, yellow to brown in color, and low to high abvs.",
         subtypes: {
             earthy_and_dry: {
-                description: "",
+                description: "Lighter and drier malt profiles along with earthy, hay-like, grassy, and woody hop flavors serve to define the character of these brews.",
                 style_list: [
-                
+                        "Bitter",
+                        "Ale - English Pale",
+                        "IPA - English",
+                        "IPA - Belgian"
                 ]
             },
             malty: {
-                description: "",
+                description: "While judiciously hopped, these beers have a fuller malt profile and body, often adding fruity flavors and a degree of caramel. The flavor balance still leans heavily toward the hops, which are highly aromatic and suggestive of pine and tropical fruit.",
                 style_list: [
-                
+                    "California Common / Steam Beer",
+                    "Ale - American Amber",
+                    "Ale - American Imperial Red",
+                    "Barleywine - American"
                 ]
             },
             herbal_and_citric: {
-                description: "",
+                description: "The milder malt character and the heavy use of intensely flavorful hops leads to brews that are brimming with hop-driven notes of citrus, resin and tropical fruit.",
                 style_list: [
-                
+                    "Ale -  American Pale",
+                    "Ale - American Fresh Hop",
+                    "IPA - American",
+                    "IPA - American Imperial"
                 ]
             }
         }
