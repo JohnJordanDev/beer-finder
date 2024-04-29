@@ -205,14 +205,23 @@ ol {
     justify-content: space-between;
 }
 
+.subtype-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin-bottom: 1rem;
+}
+
 .tabs {
 	display: flex;
 	position: sticky;
 	top: 0;
 }
 .tabs > button {
+	box-sizing: border-box;
 	flex: 1 1 50%;
 	margin: 0 1.5rem;
+	padding: 0.5rem;
 }
 
 @media screen and (min-width: 36rem) {

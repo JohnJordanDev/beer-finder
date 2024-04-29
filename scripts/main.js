@@ -327,7 +327,20 @@ let BEERS;
 
 ;(async function(){
     try {
-         const setSelectedTab = (tabButtons, tabButtonSelected) => {
+
+        const formChangeHandler = ev => {
+            const typeSelected = ev.target;
+            FLAVOR_SUBSECTIONS.forEach(s => {
+                const fType = s.id.split("_")[0];
+                if(fType === typeSelected.value){
+                    FLAVOR_TYPE_SELECTED.innerText = typeSelected.parentNode.innerText;
+                    s.style.display = "block";
+                    return;
+                }
+                s.style.display = "none";
+            });
+        };
+        const setSelectedTab = (tabButtons, tabButtonSelected) => {
             if("tab" !== tabButtonSelected.getAttribute("role")){
                 return;
             }
@@ -362,6 +375,8 @@ let BEERS;
 
         
         const FLAVOR_RESULTS = document.getElementById("flavor_results"),
+            FLAVOR_TYPE_SELECTED = FLAVOR_RESULTS.querySelector("#flavor_type_selected"),
+            FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSection"),
             CRISP_FLAVOR_RESULTS = document.getElementById("crisp_flavor_results"),
             CRISP_FLAVOR_TABS = document.getElementById("crisp_flavor_tabs").querySelectorAll("button"),
             CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
@@ -371,6 +386,8 @@ let BEERS;
         setSelectedTab(CRISP_FLAVOR_TABS, CRISP_FLAVOR_TABS[0]);
 
         FLAVOR_RESULTS.addEventListener("click", tabClickHandler);
+
+        document.getElementById("flavor_form_wrapper").querySelector("form").addEventListener("change", formChangeHandler);
 
 
     } catch(e) {
