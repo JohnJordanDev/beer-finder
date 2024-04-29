@@ -21,8 +21,8 @@
         </header>
         <hr>
         <nav id="tab_nav" class="tabs">
-            <button aria-controls="results_container" aria-selected="true" id="tab-1" role="tab" tabindex="0">Name</button>
-            <button aria-controls="results_container" aria-selected="false" id="tab-2" role="tab" tabindex="0">Flavor</button>
+            <button aria-controls="term_results_container" aria-selected="true" id="tab-1" role="tab" tabindex="0">Name</button>
+            <button aria-controls="flavor_results_container" aria-selected="false" id="tab-2" role="tab" tabindex="0">Flavor</button>
         </nav>
         <section aria-labelledby="tab-1" id="term_results_container" role="tabpanel" tabindex="0">
             <h2>Search by Name</h2>
@@ -46,11 +46,61 @@
                     <p>Seems like JavaScript is disabled in this browser.</p>
                     <p>Learn how to turn on JavaScript in your browser ({YourBrowser})</p>
                 </noscript>
+                <form action="" class="flavor" method="GET">
+                    <label class="radio"><input checked name="flavor" type="radio" value="crisp">Crisp</label>
+                    <label class="radio"><input name="flavor" type="radio" value="hoppy">Hoppy</label>
+                    <label class="radio"><input name="flavor" type="radio" value="malty">Malty</label>
+                    <label class="radio"><input name="flavor" type="radio" value="roasted">Roasted</label>
+                    <label class="radio"><input name="flavor" type="radio" value="Smoked">Smoked</label>
+                    <label class="radio"><input name="flavor" type="radio" value="sour">Sour</label>
+                    <label class="radio"><input name="flavor" type="radio" value="fruity_or_spiced">Fruity <small>and/or</small> Spiced</label>
+                </form>
             </div>
-            <h3>Search Results</h3>
-            <p id="flavor_results_message">
-                Results will appear here (once you search for something).
-            </p>
+            <section id="flavor_results">
+                <h3>Results for “<span>Crisp</span>” Beers</h3>
+                <div id="crisp_flavor_results">
+                     <nav id="crisp_flavor_tabs">
+                        <button aria-controls="delicate_fruit" aria-selected="true" id="subtype-1" role="tab" tabindex="0">Delicate Fruit</button>
+                        <button aria-controls="malt_accented" aria-selected="false" id="subtype-2" role="tab" tabindex="0">Malt-accented</button>
+                        <button aria-controls="brisk_hoppiness" aria-selected="false" id="subtype-3" role="tab" tabindex="0">Brisk Hoppiness</button>
+                    </nav>
+                    <section aria-labelledby="subtype-1" id="delicate_fruit" role="tabpanel" tabindex="0">
+
+                        <h4>Delicate Fruit</h4>
+                        <p>While not particularly malty or hoppy, these styles show a bit of fruit flavor—like green apple, berries or pear—from the employment of ale yeast.</p>
+                        <ul>
+                            <li>Ale - Cream</li>
+                            <li>Ale - English Blonde</li>
+                            <li>Ale - American Blonde</li>
+                            <li>Ale - Wheat</li>
+                            <li>Kölsch</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="subtype-2" id="malt_accented" role="tabpanel" tabindex="0">
+                        <h4>Malt-accented</h4>
+                        <p>Lacking the fruit and spice aromatics of most ales and showcasing a much milder hop profile than Pilsners, these brews demonstrate a full bready, almost biscuity, malt flavor in addition to their crisp dispositions.</p>
+                        <ul>
+                            <li>Bock - Helles</li>
+                            <li>Lager - Pale</li>
+                            <li>Lager - Helles</li>
+                            <li>Lager - Amber</li>
+                            <li>Lager - Vienna</li>
+                            <li>Lager - Märzen</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="subtype-3" id="brisk_hoppiness" role="tabpanel" tabindex="0">
+                        <h4>Brisk Hoppiness</h4>
+                        <p>A more emphatic hop regiment, typically employing German and Czech-grown hops (often referred to as Noble hops), results in crisp and refreshing brews that are drier and snappier in the finish, with spicy, herbal, and floral aromas abounding.</p>
+                        <ul>
+                            <li>Pilsner</li>
+                            <li>Pilsner - Imperial</li>
+                            <li>Lager - Kellerbier/ Zwickelbier</li>
+                            <li>Lager - India Pale</li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+
         </section>
     </main>
     <aside></aside>

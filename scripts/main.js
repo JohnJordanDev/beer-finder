@@ -113,7 +113,7 @@ try {
 
     const TAB_NAV = document.getElementById("tab_nav"), 
         TABS = TAB_NAV.querySelectorAll("button"), 
-        TAB_PANELS = document.querySelectorAll("[role='tabpanel']");
+        TAB_PANELS = TAB_NAV.parentNode.querySelectorAll("#tab_nav ~ [role='tabpanel']");
 
     setToSelectedTab(TAB_PANELS);
     setSelectedTab(TABS, TABS[0]);
@@ -186,13 +186,13 @@ let BEERS;
             return;
         }
         BEERS = (await dbReq.json());
-        console.log("Beers are: ", BEERS);
-        console.log(Object.entries(BEERS).forEach(e => {
-            const type = e[1].Rating;
-            if(!RATINGS[type]) {
-                RATINGS[type] = type;
-            }
-        }));
+        // console.log("Beers are: ", BEERS);
+        // console.log(Object.entries(BEERS).forEach(e => {
+        //     const type = e[1].Rating;
+        //     if(!RATINGS[type]) {
+        //         RATINGS[type] = type;
+        //     }
+        // }));
 
         const IDX = lunr(function() {
             // position is added to the individual beer record later...
@@ -260,7 +260,7 @@ let BEERS;
             outRight = e.clientX > rect.right, 
             outBottom = e.clientY > rect.bottom, 
             outLeft = e.clientX < rect.left;
-          console.log(outTop, outRight, outBottom, outLeft);
+          // console.log(outTop, outRight, outBottom, outLeft);
           if(outTop || outRight || outLeft || outBottom) {
             BEER_MODAL.close();
           }
@@ -327,45 +327,51 @@ let BEERS;
 
 ;(async function(){
     try {
-        const FLAVOR_RESULTS = document.getElementById("flavor_results_message");
-        // TODO: Add description to subtype and show in UI
-        const getFlavorEntries = (nameOfFlavor = "", flavor = {}) => {
-            let output = `<h4>${nameOfFlavor}</h4>
-                <p>${flavor.description}</p>`;
-            const subTypes = flavor.subtypes;
-            console.log(subTypes);
-            for(const subType in subTypes){
-                console.log(subType);
-                output += `
-                <h5>${subType}</h5>
-                    <p>${subTypes[subType].description}</p>
-                    <ul>`;
-                subTypes[subType].style_list.forEach(st => {
-                    output += `<li>${st}</li>`;
-                });
-                output += "</ul>";
+         const setSelectedTab = (tabButtons, tabButtonSelected) => {
+            if("tab" !== tabButtonSelected.getAttribute("role")){
+                return;
             }
-            return output;
+            tabButtons.forEach(tb => {
+                if(tb.id === tabButtonSelected.id){
+                    tb.setAttribute("aria-selected", true);
+                    tb.classList.add("active-tab");
+                    return;
+                }
+                tb.setAttribute("aria-selected", false);
+                tb.classList.remove("active-tab");
+            });
         };
-        const flavorForm = `
-        <form action="" class="flavor" method="GET">
-            <label class="radio"><input checked name="flavor" type="radio" value="crisp">Crisp</label>
-            <label class="radio"><input name="flavor" type="radio" value="hoppy">Hoppy</label>
-            <label class="radio"><input name="flavor" type="radio" value="malty">Malty</label>
-            <label class="radio"><input name="flavor" type="radio" value="roasted">Roasted</label>
-            <label class="radio"><input name="flavor" type="radio" value="Smoked">Smoked</label>
-            <label class="radio"><input name="flavor" type="radio" value="sour">Sour</label>
-            <label class="radio"><input name="flavor" type="radio" value="fruity_or_spiced">Fruity <small>and/or</small> Spiced</label>
-        </form>`;
-        const formWrapper = document.getElementById("flavor_form_wrapper");
-        formWrapper.innerHTML = flavorForm;
-        const formChangeHandler = ev => {
-            const option = ev.target;
-            FLAVOR_RESULTS.innerHTML = getFlavorEntries(option.value, FLAVOR_TYPE[option.value]);
+
+        const setToSelectedTab = (tabPanels = [], tab = "subtype-1") => {
+            tabPanels.forEach(tp => {
+                if(tab === tp.getAttribute("aria-labelledby")) {
+                    return tp.style.display = "block";
+                }
+                tp.style.display = "none";
+            });
         };
-        formWrapper.querySelector("form").addEventListener("change", formChangeHandler);
-        const initiallyChecked = formWrapper.querySelector("[checked]");
-        FLAVOR_RESULTS.innerHTML = getFlavorEntries(initiallyChecked.value, FLAVOR_TYPE[initiallyChecked.value]);
+
+        const tabClickHandler = ev => {
+            const tab = ev.target;
+            if("tab" !== tab.getAttribute("role")){
+                return;
+            }
+            setSelectedTab(CRISP_FLAVOR_TABS, tab);
+            setToSelectedTab(CRISP_FLAVOR_PANELS, tab.id);
+        };
+
+        
+        const FLAVOR_RESULTS = document.getElementById("flavor_results"),
+            CRISP_FLAVOR_RESULTS = document.getElementById("crisp_flavor_results"),
+            CRISP_FLAVOR_TABS = document.getElementById("crisp_flavor_tabs").querySelectorAll("button"),
+            CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+
+
+        setToSelectedTab(CRISP_FLAVOR_PANELS);
+        setSelectedTab(CRISP_FLAVOR_TABS, CRISP_FLAVOR_TABS[0]);
+
+        FLAVOR_RESULTS.addEventListener("click", tabClickHandler);
+
 
     } catch(e) {
         console.log(`Error in Flavor Form: ${e.toString()}`);
