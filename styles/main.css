@@ -105,6 +105,14 @@ form[method="dialog"] > button {
     align-items: center;
     flex: 1 1 100%;
 }
+.form-wrapper {
+	background: #FFF;
+	border-bottom: solid: 0.25rem #000;
+	padding: 1rem 0;
+	position: sticky;
+	/* match tab nav height */
+	top: 1.25rem;
+}
 footer {
     background-color: #999;
     grid-area: footer;
@@ -112,6 +120,24 @@ footer {
 }
 article > footer {
 	background: none;
+}
+h1,h2,h3, h4, h5 {
+	margin-bottom: 1rem;
+}
+h1 {
+	font-size: 2.25rem
+}
+h2 {
+	font-size: 2rem;
+}
+h3 {
+	font-size: 1.75rem;
+}
+h4 {
+	font-size: 1.5rem;
+}
+h5 {
+	font-size: 1.125rem;
 }
 input {
     display: inline-block;
@@ -130,9 +156,7 @@ li {
 main > header {
     background-color: white;
     margin-bottom: 1.5rem;
-    position: sticky;
     text-align: center;
-    top: 0;
 }
 
 noscript {
@@ -186,6 +210,8 @@ ol {
 
 .tabs {
 	display: flex;
+	position: sticky;
+	top: 0;
 }
 .tabs > button {
 	flex: 1 1 50%;
@@ -208,7 +234,7 @@ ol {
    		max-width: 34rem;
     }
 
-    #search_form_wrapper {
+    .form-wrapper > form {
         margin: 0 auto;
         max-width: 20rem;
     }
