@@ -12,73 +12,6 @@
     - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
 */
 const FLAVOR_TYPE = {
-    crisp: {
-        description: "Crisp beers are lighter, cleaner in flavor, and crisply refreshing. They range in color from straw to amber, have low to medium abvs, and are light to medium in body.",
-        subtypes: {
-            fruity: {
-                description: "While not particularly malty or hoppy, these styles show a bit of fruit flavor—like green apple, berries or pear—from the employment of ale yeast.",
-                style_list: [
-                    "Ale - Cream",
-                    "Ale - English Blonde",
-                    "Ale - American Blonde",
-                    "Ale - Wheat",
-                    "Kölsch"
-                ]
-            },
-            malty: {
-                description: "Lacking the fruit and spice aromatics of most ales and showcasing a much milder hop profile than Pilsners, these brews demonstrate a full bready, almost biscuity, malt flavor in addition to their crisp dispositions.",
-                style_list: [
-                    "Bock - Helles",
-                    "Lager - Pale",
-                    "Lager - Helles",
-                    "Lager - Amber",
-                    "Lager - Vienna",
-                    "Lager - Märzen"
-                ]
-            },
-            hoppy: {
-                description: "A more emphatic hop regiment, typically employing German and Czech-grown hops (often referred to as Noble hops), results in crisp and refreshing brews that are drier and snappier in the finish, with spicy, herbal, and floral aromas abounding.", 
-                style_list: [
-                    "Pilsner",
-                    "Pilsner - Imperial",
-                    "Lager - Kellerbier/ Zwickelbier",
-                    "Lager - India Pale"
-                ]
-            }
-        }
-    },
-    hoppy: {
-        description: "These brews are all about the delicious aromas and pronounced bitterness derived from generous additions of hops. Though typically endowed with some malt richness, hops in these brews will always provide the most intense flavor contribution. These beers range from medium to full bodied, yellow to brown in color, and low to high abvs.",
-        subtypes: {
-            earthy_and_dry: {
-                description: "Lighter and drier malt profiles along with earthy, hay-like, grassy, and woody hop flavors serve to define the character of these brews.",
-                style_list: [
-                        "Bitter",
-                        "Ale - English Pale",
-                        "IPA - English",
-                        "IPA - Belgian"
-                ]
-            },
-            malty: {
-                description: "While judiciously hopped, these beers have a fuller malt profile and body, often adding fruity flavors and a degree of caramel. The flavor balance still leans heavily toward the hops, which are highly aromatic and suggestive of pine and tropical fruit.",
-                style_list: [
-                    "California Common / Steam Beer",
-                    "Ale - American Amber",
-                    "Ale - American Imperial Red",
-                    "Barleywine - American"
-                ]
-            },
-            herbal_and_citric: {
-                description: "The milder malt character and the heavy use of intensely flavorful hops leads to brews that are brimming with hop-driven notes of citrus, resin and tropical fruit.",
-                style_list: [
-                    "Ale -  American Pale",
-                    "Ale - American Fresh Hop",
-                    "IPA - American",
-                    "IPA - American Imperial"
-                ]
-            }
-        }
-    },
     malty: {},
     roasted: {},
     smoked: {},
@@ -330,6 +263,7 @@ let BEERS;
 
         const formChangeHandler = ev => {
             const typeSelected = ev.target;
+
             FLAVOR_SUBSECTIONS.forEach(s => {
                 const fType = s.id.split("_")[0];
                 if(fType === typeSelected.value){
@@ -355,7 +289,7 @@ let BEERS;
             });
         };
 
-        const setToSelectedTab = (tabPanels = [], tab = "subtype-1") => {
+        const setToSelectedTab = (tabPanels = [], tab = "crisp_subtype_1") => {
             tabPanels.forEach(tp => {
                 if(tab === tp.getAttribute("aria-labelledby")) {
                     return tp.style.display = "block";
@@ -369,8 +303,15 @@ let BEERS;
             if("tab" !== tab.getAttribute("role")){
                 return;
             }
-            setSelectedTab(CRISP_FLAVOR_TABS, tab);
-            setToSelectedTab(CRISP_FLAVOR_PANELS, tab.id);
+            console.log("tab is",tab);
+            const tabPanelToShow = tab.getAttribute("aria-controls");
+            const tabParent = tab.parentNode;
+            //todo: replace this two sections, with calls to setSelected
+            const allTabs = tabParent.querySelectorAll("button");
+            setSelectedTab(allTabs, tab);
+            const flavorSubSection = tab.parentNode.parentNode;
+            const tabPanels = flavorSubSection.querySelectorAll("section");
+            setToSelectedTab(tabPanels, tab.id);
         };
 
         
@@ -379,15 +320,26 @@ let BEERS;
             FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSection"),
             CRISP_FLAVOR_RESULTS = document.getElementById("crisp_flavor_results"),
             CRISP_FLAVOR_TABS = document.getElementById("crisp_flavor_tabs").querySelectorAll("button"),
-            CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+            CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
+
+            HOPPY_FLAVOR_RESULTS = document.getElementById("hoppy_flavor_results"),
+            HOPPY_FLAVOR_TABS = document.getElementById("hoppy_flavor_tabs").querySelectorAll("button"),
+            HOPPY_FLAVOR_PANELS = HOPPY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
 
 
-        setToSelectedTab(CRISP_FLAVOR_PANELS);
+        // bugfix: need to set aria-selected attribute to first subtype tab on page load, since all aria-selected are false for non-crispy tabs (from HTML)
         setSelectedTab(CRISP_FLAVOR_TABS, CRISP_FLAVOR_TABS[0]);
+        setToSelectedTab(CRISP_FLAVOR_PANELS);
+        setToSelectedTab(HOPPY_FLAVOR_PANELS);
+
+        const FLAVOR_FORM = document.getElementById("flavor_form_wrapper").querySelector("form");
+        let selectedFlavor = FLAVOR_FORM.querySelector("input:checked");
+        // set flavor on load
+        formChangeHandler({target: selectedFlavor});
+        FLAVOR_FORM.addEventListener("change", formChangeHandler);
 
         FLAVOR_RESULTS.addEventListener("click", tabClickHandler);
 
-        document.getElementById("flavor_form_wrapper").querySelector("form").addEventListener("change", formChangeHandler);
 
 
     } catch(e) {
