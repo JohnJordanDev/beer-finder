@@ -111,7 +111,7 @@ form[method="dialog"] > button {
 	padding: 1rem 0;
 	position: sticky;
 	/* match tab nav height */
-	top: 1.25rem;
+	top: 2.5rem;
 }
 footer {
     background-color: #999;

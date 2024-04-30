@@ -35,7 +35,7 @@ try {
         });
     };
 
-    const setToSelectedTab = (tabPanels = [], tab = "tab-1") => {
+    const setPanelsToSelectedTab = (tabPanels = [], tab = "tab-1") => {
         tabPanels.forEach(tp => {
             if(tab === tp.getAttribute("aria-labelledby")) {
                 return tp.style.display = "block";
@@ -48,7 +48,7 @@ try {
         TABS = TAB_NAV.querySelectorAll("button"), 
         TAB_PANELS = TAB_NAV.parentNode.querySelectorAll("#tab_nav ~ [role='tabpanel']");
 
-    setToSelectedTab(TAB_PANELS);
+    setPanelsToSelectedTab(TAB_PANELS);
     setSelectedTab(TABS, TABS[0]);
 
 
@@ -58,7 +58,7 @@ try {
             return;
         }
         setSelectedTab(TABS, tab);
-        setToSelectedTab(TAB_PANELS, tab.id);
+        setPanelsToSelectedTab(TAB_PANELS, tab.id);
     };
     TAB_NAV.addEventListener("click", handleTabClick);
     
@@ -264,15 +264,30 @@ let BEERS;
         const formChangeHandler = ev => {
             const typeSelected = ev.target;
 
+            console.log('type from form changes: ', typeSelected)
+            const selectedFlavor = typeSelected.value;
+            let selectedFlavorSection;
+
             FLAVOR_SUBSECTIONS.forEach(s => {
                 const fType = s.id.split("_")[0];
                 if(fType === typeSelected.value){
+                    selectedFlavorSection = s;
                     FLAVOR_TYPE_SELECTED.innerText = typeSelected.parentNode.innerText;
                     s.style.display = "block";
                     return;
                 }
                 s.style.display = "none";
             });
+            let selectedFlavorElem = FLAVOR_FORM.querySelector("input:checked");
+            const currentlySelectedTab = selectedFlavorSection.querySelector(".active-tab");
+            let currentlySelectedTabIndex = 0;
+            if(currentlySelectedTab){
+                const index = parseInt(currentlySelectedTab.id.split("_")[2], 10) - 1;
+                currentlySelectedTabIndex = index;
+            }
+            setSelectedTab(tabsToSelect[selectedFlavor], tabsToSelect[selectedFlavor][currentlySelectedTabIndex]);
+            const tabToSelectId = tabsToSelect[selectedFlavor][0].id;
+            setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
         };
         const setSelectedTab = (tabButtons, tabButtonSelected) => {
             if("tab" !== tabButtonSelected.getAttribute("role")){
@@ -289,9 +304,10 @@ let BEERS;
             });
         };
 
-        const setToSelectedTab = (tabPanels = [], tab = "crisp_subtype_1") => {
+        const setPanelsToSelectedTab = (tabPanels = [], tabId = "crisp_subtype_1") => {
             tabPanels.forEach(tp => {
-                if(tab === tp.getAttribute("aria-labelledby")) {
+                console.log('tp', tp)
+                if(tabId === tp.getAttribute("aria-labelledby")) {
                     return tp.style.display = "block";
                 }
                 tp.style.display = "none";
@@ -311,13 +327,13 @@ let BEERS;
             setSelectedTab(allTabs, tab);
             const flavorSubSection = tab.parentNode.parentNode;
             const tabPanels = flavorSubSection.querySelectorAll("section");
-            setToSelectedTab(tabPanels, tab.id);
+            setPanelsToSelectedTab(tabPanels, tab.id);
         };
 
         
         const FLAVOR_RESULTS = document.getElementById("flavor_results"),
             FLAVOR_TYPE_SELECTED = FLAVOR_RESULTS.querySelector("#flavor_type_selected"),
-            FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSection"),
+            FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSections"),
             CRISP_FLAVOR_RESULTS = document.getElementById("crisp_flavor_results"),
             CRISP_FLAVOR_TABS = document.getElementById("crisp_flavor_tabs").querySelectorAll("button"),
             CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
@@ -326,18 +342,32 @@ let BEERS;
             HOPPY_FLAVOR_TABS = document.getElementById("hoppy_flavor_tabs").querySelectorAll("button"),
             HOPPY_FLAVOR_PANELS = HOPPY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
 
-
-        // bugfix: need to set aria-selected attribute to first subtype tab on page load, since all aria-selected are false for non-crispy tabs (from HTML)
-        setSelectedTab(CRISP_FLAVOR_TABS, CRISP_FLAVOR_TABS[0]);
-        setToSelectedTab(CRISP_FLAVOR_PANELS);
-        setToSelectedTab(HOPPY_FLAVOR_PANELS);
-
+        // Set up behavior and UI on load
         const FLAVOR_FORM = document.getElementById("flavor_form_wrapper").querySelector("form");
-        let selectedFlavor = FLAVOR_FORM.querySelector("input:checked");
-        // set flavor on load
-        formChangeHandler({target: selectedFlavor});
-        FLAVOR_FORM.addEventListener("change", formChangeHandler);
 
+        let selectedFlavorElem = FLAVOR_FORM.querySelector("input:checked"),
+            selectedFlavor = selectedFlavorElem.value;
+
+        const tabsToSelect = {
+            "crisp": CRISP_FLAVOR_TABS,
+            "hoppy": HOPPY_FLAVOR_TABS
+        };
+
+        // todo: rather than default 0th tab, could get tab from local storage to preserve state on refresh
+        const tabToSelectId = tabsToSelect[selectedFlavor][0].id;
+        setSelectedTab(tabsToSelect[selectedFlavor], tabsToSelect[selectedFlavor][0]);
+
+
+        const tabPanelsToSelect = {
+            "crisp": CRISP_FLAVOR_PANELS,
+            "hoppy": HOPPY_FLAVOR_PANELS
+        };
+
+        setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
+
+        formChangeHandler({target:selectedFlavorElem })
+
+        FLAVOR_FORM.addEventListener("change", formChangeHandler);
         FLAVOR_RESULTS.addEventListener("click", tabClickHandler);
 
 
