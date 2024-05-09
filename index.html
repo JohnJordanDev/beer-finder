@@ -58,7 +58,7 @@
             </div>
             <section id="flavor_results">
                 <h3>Results for “<span id="flavor_type_selected">Crisp</span>” Beers</h3>
-                <div class="flavor-subSections" id="crisp_flavor_results">
+                <div class="flavor-subSection" id="crisp_flavor_results">
                     <p>Crisp beers are lighter, cleaner in flavor, and crisply refreshing. They range in color from straw to amber, have low to medium abvs, and are light to medium in body.</p>
                     <nav class="subtype-tabs" id="crisp_flavor_tabs">
                         <button aria-controls="delicate_fruit" aria-selected="true" id="crisp_subtype_1" role="tab" tabindex="0">Delicate Fruit</button>
@@ -99,10 +99,10 @@
                         </ul>
                     </section>
                 </div>
-                <div class="flavor-subSections" id="hoppy_flavor_results">
+                <div class="flavor-subSection" id="hoppy_flavor_results">
                     <p>These brews are all about the delicious aromas and pronounced bitterness derived from generous additions of hops. Though typically endowed with some malt richness, hops in these brews will always provide the most intense flavor contribution. These beers range from medium to full bodied, yellow to brown in color, and low to high abvs.</p>
                     <nav class="subtype-tabs" id="hoppy_flavor_tabs">
-                        <button aria-controls="earthy_and_dry" aria-selected="true" id="hoppy_subtype_1" role="tab" tabindex="0">Earthy and Dry</button>
+                        <button aria-controls="earthy_and_dry" aria-selected="false" id="hoppy_subtype_1" role="tab" tabindex="0">Earthy and Dry</button>
                         <button aria-controls="malty" aria-selected="false" id="hoppy_subtype_2" role="tab" tabindex="0">Malty</button>
                         <button aria-controls="herbal_and_citric" aria-selected="false" id="hoppy_subtype_3" role="tab" tabindex="0">Herbal and Citric</button>
                     </nav>
@@ -137,9 +137,78 @@
                         </ul>
                     </section>
                 </div>
-            </section>
+                <div class="flavor-subSection" id="malty_flavor_results">
+                    <p>Malt-driven flavors dominate the flavor profiles of these brews; in each, expect a degree of sweetness and deep malty notes of nuts, toffee, caramel, toast, and fruit. These beers range from copper to dark brown in color, from light to full bodied, and low to high in abv.</p>
+                    <nav class="subtype-tabs" id="malty_flavor_tabs">
+                        <button aria-controls="toasty_and_nutty" aria-selected="false" id="malty_subtype_1" role="tab" tabindex="0">Toasty and Nutty</button>
+                        <button aria-controls="fruit_and_toffee" aria-selected="false" id="malty_subtype_2" role="tab" tabindex="0">Fruit and Toffee</button>
+                    </nav>
+                    <section aria-labelledby="malty_subtype_1" id="toasty_and_nutty" role="tabpanel" tabindex="0">
+                        <h4>Toasty and Nutty</h4>
+                        <p>These brews tend to combine a mildly crisp quality with full bready malt flavors; think biscuity, nutty and toasty accents. Stronger versions can show a touch of caramel, while the biggest begin to display raisin and fig nuances.</p>
+                        <ul>
+                            <li>Ale - English Brown</li>
+                            <li>Düsseldorf Alt</li>
+                            <li>Dunkles Bock</li>
+                            <li>Doppelbock</li>
+                            <li>Eisbock</li>
+                            <li>English Mild</li>
+                            <li>Lager - Dark</li>
+                            <li>Lager - Dunkel</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="malty_subtype_2" id="fruit_and_toffee" role="tabpanel" tabindex="0">
+                        <h4>Fruit and Toffee</h4>
+                        <p>In addition to a solid malt backbone, these brews possess mildly fruity aromas; caramelized, toffeeish flavors are layered with notes of dried fruit, red delicious apples, oranges, and plums.</p>
+                        <ul>
+                            <li>Ale - Belgian Pale</li>
+                            <li>Ale - English Strong</li>
+                            <li>Ale - Irish Red</li>
+                            <li>Ale - Scottish</li>
+                            <li>Ale - Scotch / Wee Heavy</li>
+                            <li>Barleywine - English</li>
+                            <li>Biére de Garde</li>
+                            <li>Bitter - Best</li>
+                            <li>Bitter - Extra Special</li>
+                            <li>Wheatwine</li>
+                        </ul>
+                    </section>
+                </div>
+                <div class="flavor-subSection" id="roasted_flavor_results">
+                    <nav class="subtype-tabs" id="roasted_flavor_tabs">
+                        <button aria-controls="soft_and_silky" aria-selected="false" id="roasted_subtype_1" role="tab" tabindex="0">Soft and Silky</button>
+                        <button aria-controls="dark_and_dry" aria-selected="false" id="roasted_subtype_2" role="tab" tabindex="0">Dark and Dry</button>
+                    </nav>
+                    <section aria-labelledby="roasted_subtype_1" id="soft_and_silky" role="tabpanel" tabindex="0">
+                        <h4>Soft and Silky</h4>
+                        <p></p>
+                        <ul>
+                            <li>Ale - Imperical Brown</li>
+                            <li>Porter - Brown</li>
+                            <li>Porter - Imperial</li>
+                            <li>Schwarzbier</li>
+                            <li>Stout - Belgian</li>
+                            <li>Stout - Foreign Export</li>
+                            <li>Stout - Oatmeal</li>
+                            <li>Stout - Sweet</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="roasted_subtype_2" id="dark_and_dry" role="tabpanel" tabindex="0">
+                        <h4>Dark and Dry</h4>
+                        <p></p>
+                        <ul>
+                            <li>Ale - American Brown</li>
+                            <li>IPA - Black</li>
+                            <li>Porter - Robust</li>
+                            <li>Stout - American</li>
+                            <li>Stout - Dry</li>
+                            <li>Stout - Imperial</li>
+                        </ul>
+                    </section>
+                </div> 
+            </section> <!-- end of results -->
 
-        </section>
+        </section> <!-- end of results container -->
     </main>
     <aside></aside>
     <footer>

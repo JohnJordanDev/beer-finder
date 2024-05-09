@@ -12,7 +12,6 @@
     - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
 */
 const FLAVOR_TYPE = {
-    malty: {},
     roasted: {},
     smoked: {},
     sour: {},
@@ -262,32 +261,36 @@ let BEERS;
     try {
 
         const formChangeHandler = ev => {
-            const typeSelected = ev.target;
+            try {
+                const typeSelected = ev.target;
 
-            console.log('type from form changes: ', typeSelected)
-            const selectedFlavor = typeSelected.value;
-            let selectedFlavorSection;
+                console.log('type from form changes: ', typeSelected)
+                const selectedFlavor = typeSelected.value;
+                let selectedFlavorSection;
 
-            FLAVOR_SUBSECTIONS.forEach(s => {
-                const fType = s.id.split("_")[0];
-                if(fType === typeSelected.value){
-                    selectedFlavorSection = s;
-                    FLAVOR_TYPE_SELECTED.innerText = typeSelected.parentNode.innerText;
-                    s.style.display = "block";
-                    return;
+                FLAVOR_SUBSECTIONS.forEach(s => {
+                    const fType = s.id.split("_")[0];
+                    if(fType === typeSelected.value){
+                        selectedFlavorSection = s;
+                        FLAVOR_TYPE_SELECTED.innerText = typeSelected.parentNode.innerText;
+                        s.style.display = "block";
+                        return;
+                    }
+                    s.style.display = "none";
+                });
+                let selectedFlavorElem = FLAVOR_FORM.querySelector("input:checked");
+                const currentlySelectedTab = selectedFlavorSection.querySelector(".active-tab");
+                let currentlySelectedTabIndex = 0;
+                if(currentlySelectedTab){
+                    const index = parseInt(currentlySelectedTab.id.split("_")[2], 10) - 1;
+                    currentlySelectedTabIndex = index;
                 }
-                s.style.display = "none";
-            });
-            let selectedFlavorElem = FLAVOR_FORM.querySelector("input:checked");
-            const currentlySelectedTab = selectedFlavorSection.querySelector(".active-tab");
-            let currentlySelectedTabIndex = 0;
-            if(currentlySelectedTab){
-                const index = parseInt(currentlySelectedTab.id.split("_")[2], 10) - 1;
-                currentlySelectedTabIndex = index;
+                setSelectedTab(tabsToSelect[selectedFlavor], tabsToSelect[selectedFlavor][currentlySelectedTabIndex]);
+                const tabToSelectId = tabsToSelect[selectedFlavor][currentlySelectedTabIndex].id;
+                setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
+            } catch(e) {
+                console.log(`Error in formChangeHandler: `, e.toString());
             }
-            setSelectedTab(tabsToSelect[selectedFlavor], tabsToSelect[selectedFlavor][currentlySelectedTabIndex]);
-            const tabToSelectId = tabsToSelect[selectedFlavor][0].id;
-            setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
         };
         const setSelectedTab = (tabButtons, tabButtonSelected) => {
             if("tab" !== tabButtonSelected.getAttribute("role")){
@@ -330,10 +333,10 @@ let BEERS;
             setPanelsToSelectedTab(tabPanels, tab.id);
         };
 
-        
+        // Add new sections here, noting that some variables reference each other, e.g. MALTY_FLAVOR!
         const FLAVOR_RESULTS = document.getElementById("flavor_results"),
             FLAVOR_TYPE_SELECTED = FLAVOR_RESULTS.querySelector("#flavor_type_selected"),
-            FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSections"),
+            FLAVOR_SUBSECTIONS = FLAVOR_RESULTS.querySelectorAll(".flavor-subSection"),
             CRISP_FLAVOR_RESULTS = document.getElementById("crisp_flavor_results"),
             CRISP_FLAVOR_TABS = document.getElementById("crisp_flavor_tabs").querySelectorAll("button"),
             CRISP_FLAVOR_PANELS = CRISP_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
@@ -342,15 +345,29 @@ let BEERS;
             HOPPY_FLAVOR_TABS = document.getElementById("hoppy_flavor_tabs").querySelectorAll("button"),
             HOPPY_FLAVOR_PANELS = HOPPY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
 
+            MALTY_FLAVOR_RESULTS = document.getElementById("malty_flavor_results"),
+            MALTY_FLAVOR_TABS = document.getElementById("malty_flavor_tabs").querySelectorAll("button"),
+            MALTY_FLAVOR_PANELS = MALTY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+
+            ROASTED_FLAVOR_RESULTS = document.getElementById("roasted_flavor_results"),
+            ROASTED_FLAVOR_TABS = document.getElementById("roasted_flavor_tabs").querySelectorAll("button"),
+            ROASTED_FLAVOR_PANELS = ROASTED_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+
+
+
         // Set up behavior and UI on load
         const FLAVOR_FORM = document.getElementById("flavor_form_wrapper").querySelector("form");
 
         let selectedFlavorElem = FLAVOR_FORM.querySelector("input:checked"),
             selectedFlavor = selectedFlavorElem.value;
 
+        // Taken from value of radio input (for tabs and panel)
+
         const tabsToSelect = {
             "crisp": CRISP_FLAVOR_TABS,
-            "hoppy": HOPPY_FLAVOR_TABS
+            "hoppy": HOPPY_FLAVOR_TABS,
+            "malty": MALTY_FLAVOR_TABS,
+            "roasted": ROASTED_FLAVOR_TABS
         };
 
         // todo: rather than default 0th tab, could get tab from local storage to preserve state on refresh
@@ -360,7 +377,9 @@ let BEERS;
 
         const tabPanelsToSelect = {
             "crisp": CRISP_FLAVOR_PANELS,
-            "hoppy": HOPPY_FLAVOR_PANELS
+            "hoppy": HOPPY_FLAVOR_PANELS,
+            "malty": MALTY_FLAVOR_PANELS,
+            "roasted": ROASTED_FLAVOR_PANELS
         };
 
         setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
