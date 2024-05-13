@@ -50,8 +50,8 @@
                     <label class="radio"><input checked name="flavor" type="radio" value="crisp">Crisp</label>
                     <label class="radio"><input name="flavor" type="radio" value="hoppy">Hoppy</label>
                     <label class="radio"><input name="flavor" type="radio" value="malty">Malty</label>
-                    <label class="radio"><input name="flavor" type="radio" value="roasted">Roasted</label>
-                    <label class="radio"><input name="flavor" type="radio" value="Smoked">Smoked</label>
+                    <label class="radio"><input name="flavor" type="radio" value="roast">Roast</label>
+                    <label class="radio"><input name="flavor" type="radio" value="smoke">Smoke</label>
                     <label class="radio"><input name="flavor" type="radio" value="sour">Sour</label>
                     <label class="radio"><input name="flavor" type="radio" value="fruity_or_spiced">Fruity <small>and/or</small> Spiced</label>
                 </form>
@@ -174,12 +174,13 @@
                         </ul>
                     </section>
                 </div>
-                <div class="flavor-subSection" id="roasted_flavor_results">
-                    <nav class="subtype-tabs" id="roasted_flavor_tabs">
-                        <button aria-controls="soft_and_silky" aria-selected="false" id="roasted_subtype_1" role="tab" tabindex="0">Soft and Silky</button>
-                        <button aria-controls="dark_and_dry" aria-selected="false" id="roasted_subtype_2" role="tab" tabindex="0">Dark and Dry</button>
+                <div class="flavor-subSection" id="roast_flavor_results">
+                    <p>These brews employ highly roast malts grains for coffee and cocoa flavors, rich mouthfeels, and very dark appearances. They can be medium-light to full bodied, from deep copper to black in color, and low to high in abv.</p>
+                    <nav class="subtype-tabs" id="roast_flavor_tabs">
+                        <button aria-controls="soft_and_silky" aria-selected="false" id="roast_subtype_1" role="tab" tabindex="0">Soft and Silky</button>
+                        <button aria-controls="dark_and_dry" aria-selected="false" id="roast_subtype_2" role="tab" tabindex="0">Dark and Dry</button>
                     </nav>
-                    <section aria-labelledby="roasted_subtype_1" id="soft_and_silky" role="tabpanel" tabindex="0">
+                    <section aria-labelledby="roast_subtype_1" id="soft_and_silky" role="tabpanel" tabindex="0">
                         <h4>Soft and Silky</h4>
                         <p></p>
                         <ul>
@@ -193,7 +194,7 @@
                             <li>Stout - Sweet</li>
                         </ul>
                     </section>
-                    <section aria-labelledby="roasted_subtype_2" id="dark_and_dry" role="tabpanel" tabindex="0">
+                    <section aria-labelledby="roast_subtype_2" id="dark_and_dry" role="tabpanel" tabindex="0">
                         <h4>Dark and Dry</h4>
                         <p></p>
                         <ul>
@@ -203,6 +204,30 @@
                             <li>Stout - American</li>
                             <li>Stout - Dry</li>
                             <li>Stout - Imperial</li>
+                        </ul>
+                    </section>
+                </div> 
+                <div class="flavor-subSection" id="smoke_flavor_results">
+                    <p>Brews that incorporate malts smoked over various wood fires, or aged in Single Malt Scotch Whisky oak barrels. These beers range from medium-light to full bodied, can be deep amber to dark brown in color, and may be medium to medium high in abv. They are typically milder brews, were it not for the often dramatic smoky flavors.</p>
+                    <nav class="subtype-tabs" id="smoke_flavor_tabs">
+                        <button aria-controls="subdued_smolder" aria-selected="false" id="smoke_subtype_1" role="tab" tabindex="0">Subdued Smolder</button>
+                        <button aria-controls="spicy_and_meaty" aria-selected="false" id="smoke_subtype_2" role="tab" tabindex="0">Spicy and Meaty</button>
+                    </nav>
+                    <section aria-labelledby="smoke_subtype_1" id="subdued_smolder" role="tabpanel" tabindex="0">
+                        <h4>Subdued Smolder</h4>
+                        <p>The smoked flavor is more subtle for styles within in this category; prevalent toasty and/or roasty malt flavors balance against the woody, peaty, or spicy smoked notes.</p>
+                        <ul>
+                            <li>Beer - Smoked</li>
+                            <li>Porter - Smoked</li>
+                            <li>Steinbrau</li>
+
+                        </ul>
+                    </section>
+                    <section aria-labelledby="smoke_subtype_2" id="spicy_and_meaty" role="tabpanel" tabindex="0">
+                        <h4>Spicy and Meaty</h4>
+                        <p>Heavily smoked, sausage-like flavors are the calling card of these beers. Bonfire aromas overlay a range of subtler flavors, from biscuity malt to bananas, nutmeg, and clove, to raisins, toffee and nuts.</p>
+                        <ul>
+                            <li>Rauchbier</li>
                         </ul>
                     </section>
                 </div> 

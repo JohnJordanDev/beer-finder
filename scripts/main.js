@@ -4,7 +4,7 @@
         - crisp & clean
         - hoppy or bitter
         - malty or sweet
-        - roasted or smokey
+        - roast or smokey
         - fruity or spiced
         - sour or funky
         as radio button
@@ -12,7 +12,7 @@
     - Add "flavor" to main beer modal, based on mappings in an object (https://www.splendidtable.org/story/2013/03/21/the-7-flavor-categories-of-beer-what-they-are-how-to-pair-them)
 */
 const FLAVOR_TYPE = {
-    roasted: {},
+    roast: {},
     smoked: {},
     sour: {},
     fruity_or_spiced: {}
@@ -343,15 +343,20 @@ let BEERS;
 
             HOPPY_FLAVOR_RESULTS = document.getElementById("hoppy_flavor_results"),
             HOPPY_FLAVOR_TABS = document.getElementById("hoppy_flavor_tabs").querySelectorAll("button"),
-            HOPPY_FLAVOR_PANELS = HOPPY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+            HOPPY_FLAVOR_PANELS = HOPPY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
 
             MALTY_FLAVOR_RESULTS = document.getElementById("malty_flavor_results"),
             MALTY_FLAVOR_TABS = document.getElementById("malty_flavor_tabs").querySelectorAll("button"),
-            MALTY_FLAVOR_PANELS = MALTY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+            MALTY_FLAVOR_PANELS = MALTY_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
 
-            ROASTED_FLAVOR_RESULTS = document.getElementById("roasted_flavor_results"),
-            ROASTED_FLAVOR_TABS = document.getElementById("roasted_flavor_tabs").querySelectorAll("button"),
-            ROASTED_FLAVOR_PANELS = ROASTED_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+            ROAST_FLAVOR_RESULTS = document.getElementById("roast_flavor_results"),
+            ROAST_FLAVOR_TABS = document.getElementById("roast_flavor_tabs").querySelectorAll("button"),
+            ROAST_FLAVOR_PANELS = ROAST_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
+
+
+            SMOKE_FLAVOR_RESULTS = document.getElementById("smoke_flavor_results"),
+            SMOKE_FLAVOR_TABS = document.getElementById("smoke_flavor_tabs").querySelectorAll("button"),
+            SMOKE_FLAVOR_PANELS = SMOKE_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
 
 
 
@@ -367,7 +372,8 @@ let BEERS;
             "crisp": CRISP_FLAVOR_TABS,
             "hoppy": HOPPY_FLAVOR_TABS,
             "malty": MALTY_FLAVOR_TABS,
-            "roasted": ROASTED_FLAVOR_TABS
+            "roast": ROAST_FLAVOR_TABS,
+            "smoke": SMOKE_FLAVOR_TABS
         };
 
         // todo: rather than default 0th tab, could get tab from local storage to preserve state on refresh
@@ -379,7 +385,8 @@ let BEERS;
             "crisp": CRISP_FLAVOR_PANELS,
             "hoppy": HOPPY_FLAVOR_PANELS,
             "malty": MALTY_FLAVOR_PANELS,
-            "roasted": ROASTED_FLAVOR_PANELS
+            "roast": ROAST_FLAVOR_PANELS,
+            "smoke": SMOKE_FLAVOR_PANELS
         };
 
         setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
