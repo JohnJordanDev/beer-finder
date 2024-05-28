@@ -24,11 +24,11 @@ body {
     display: grid;
     font-family: sans-serif;
     grid-template-areas: 
-        "header header header"
-        "beer-nav main beer-aside"
-        "footer footer footer"
+        "header"
+        "main"
+        "footer"
     ;
-    grid-template-columns: 2rem 1fr 2rem;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     margin: 0;
     min-height: 100%;
@@ -54,6 +54,10 @@ article > footer {
 	align-items: center;
 	display: flex;
 	justify-content: center;
+}
+
+body > aside {
+    display: none;
 }
 
 .beer-aside {
@@ -206,10 +210,21 @@ ol {
 }
 
 .subtype-tabs {
+    box-sizing: border-box;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	margin-bottom: 1rem;
+    overflow: auto;
+    padding: 0.5rem;
+    position: sticky;
+    top: 0.5rem;
+}
+
+.subtype-tabs > button {
+    box-sizing: border-box;
+    min-width: 4rem;
+    padding: 0.5rem;
 }
 
 .tabs {
@@ -232,6 +247,8 @@ ol {
     }
     main {
         grid-area: main;
+        margin: 0 auto;
+        max-width: 32rem;
         width: 100%;
     }
 

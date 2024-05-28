@@ -269,7 +269,12 @@ let BEERS;
                 let selectedFlavorSection;
 
                 FLAVOR_SUBSECTIONS.forEach(s => {
-                    const fType = s.id.split("_")[0];
+                    let fType = s.id.split("_")[0];
+                    // since compound value of 'fruit_and_spice' for this flavor
+                    if("fruit" === fType) {
+                        fType = FRUIT_AND_SPICE_RADIO;
+                    }
+                    console.log(fType, typeSelected.value)
                     if(fType === typeSelected.value){
                         selectedFlavorSection = s;
                         FLAVOR_TYPE_SELECTED.innerText = typeSelected.parentNode.innerText;
@@ -309,7 +314,6 @@ let BEERS;
 
         const setPanelsToSelectedTab = (tabPanels = [], tabId = "crisp_subtype_1") => {
             tabPanels.forEach(tp => {
-                console.log('tp', tp)
                 if(tabId === tp.getAttribute("aria-labelledby")) {
                     return tp.style.display = "block";
                 }
@@ -353,10 +357,18 @@ let BEERS;
             ROAST_FLAVOR_TABS = document.getElementById("roast_flavor_tabs").querySelectorAll("button"),
             ROAST_FLAVOR_PANELS = ROAST_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']"),
 
-
             SMOKE_FLAVOR_RESULTS = document.getElementById("smoke_flavor_results"),
             SMOKE_FLAVOR_TABS = document.getElementById("smoke_flavor_tabs").querySelectorAll("button"),
             SMOKE_FLAVOR_PANELS = SMOKE_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+
+            SOUR_FLAVOR_RESULTS = document.getElementById("sour_flavor_results"),
+            SOUR_FLAVOR_TABS = document.getElementById("sour_flavor_tabs").querySelectorAll("button"),
+            SOUR_FLAVOR_PANELS = SOUR_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
+            
+            FRUIT_AND_SPICE_RADIO = "fruit_and_spice"
+            FRUIT_AND_SPICE_FLAVOR_RESULTS = document.getElementById(`${FRUIT_AND_SPICE_RADIO}_flavor_results`),
+            FRUIT_AND_SPICE_FLAVOR_TABS = document.getElementById(`${FRUIT_AND_SPICE_RADIO}_flavor_tabs`).querySelectorAll("button"),
+            FRUIT_AND_SPICE_FLAVOR_PANELS = FRUIT_AND_SPICE_FLAVOR_RESULTS.querySelectorAll("[role='tabpanel']");
 
 
 
@@ -373,7 +385,9 @@ let BEERS;
             "hoppy": HOPPY_FLAVOR_TABS,
             "malty": MALTY_FLAVOR_TABS,
             "roast": ROAST_FLAVOR_TABS,
-            "smoke": SMOKE_FLAVOR_TABS
+            "smoke": SMOKE_FLAVOR_TABS,
+            "sour": SOUR_FLAVOR_TABS,
+            "fruit_and_spice": FRUIT_AND_SPICE_FLAVOR_TABS
         };
 
         // todo: rather than default 0th tab, could get tab from local storage to preserve state on refresh
@@ -386,7 +400,9 @@ let BEERS;
             "hoppy": HOPPY_FLAVOR_PANELS,
             "malty": MALTY_FLAVOR_PANELS,
             "roast": ROAST_FLAVOR_PANELS,
-            "smoke": SMOKE_FLAVOR_PANELS
+            "smoke": SMOKE_FLAVOR_PANELS,
+            "sour": SOUR_FLAVOR_PANELS,
+            "fruit_and_spice": FRUIT_AND_SPICE_FLAVOR_PANELS
         };
 
         setPanelsToSelectedTab(tabPanelsToSelect[selectedFlavor], tabToSelectId);
