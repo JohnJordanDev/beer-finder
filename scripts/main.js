@@ -66,8 +66,8 @@ try {
     console.log(`Error during tab creation or execution: ${e.toString()}`);
 }
 
+// Fetch data, build indexes, Search Logic
 let BEERS;
-
 ;(async function form (){
     try {
         const RATINGS = {
@@ -84,6 +84,33 @@ let BEERS;
         const getAlcoholPerCent = perCent => {
             return perCent ? perCent :"-.-";
         };
+
+        // Beer modal behavior (closing handled via form[method=dialog])
+        const getBeerModalContent = b => {
+            return `
+            <div><form method="dialog"><button id="close_modal" autofocus>✖</button></form></div>
+            <img alt="${b.Name}" />
+            <h3>${b.Name}</h3>
+            <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
+            <p>${b.Type}</p>
+            <div class="ratings">
+                <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
+                <p>${getRating(b.Rating)}/5</p>
+            </div>
+            <hr>
+            <h4>Description/Review:</h4>
+            <p><br>${b.Description}</p>
+            `;
+        };
+
+        const getMandatorySearchTerms = (searchPhrase = "") => {
+            return searchPhrase.split(/[-/\s—–]/).filter(s => s).map(s => "+" + s).join("");
+        };
+
+        console.log(getMandatorySearchTerms("IPA - American"));
+        console.log(getMandatorySearchTerms("IPA \u2014 American"));
+        console.log(getMandatorySearchTerms("IPA — American"));
+
         const getRating = rating => {
             return RATINGS[rating] ? RATINGS[rating] : "?";
         };
@@ -149,25 +176,6 @@ let BEERS;
         document.getElementById("search_term_form").addEventListener("submit", (e) => e.preventDefault());
 
 
-
-        // Beer modal behavior (closing handled via form[method=dialog])
-        const getBeerModalContent = b => {
-            return `
-            <div><form method="dialog"><button id="close_modal" autofocus>✖</button></form></div>
-            <img alt="${b.Name}" />
-            <h3>${b.Name}</h3>
-            <p class="brewery-note"><span>by:</span> ${b.Brewery}</p>
-            <p>${b.Type}</p>
-            <div class="ratings">
-                <p>${getAlcoholPerCent(b["Alcohol %"])} %</p>
-                <p>${getRating(b.Rating)}/5</p>
-            </div>
-            <hr>
-            <h4>Description/Review:</h4>
-            <p><br>${b.Description}</p>
-            `;
-        };
-
         const BEER_MODAL = document.createElement("dialog");
         BEER_MODAL.innerHTML = `
             <div data-action="focus:trap" tabindex="0"></div>
@@ -216,7 +224,6 @@ let BEERS;
         RESULTS_LIST.addEventListener("click", resultsListClickHandler); 
 
         // Search logic
-
         document
             .getElementById("search_term_form")
             .addEventListener("input", async (e) => {
@@ -259,7 +266,6 @@ let BEERS;
 
 ;(async function(){
     try {
-
         const formChangeHandler = ev => {
             try {
                 const typeSelected = ev.target;

@@ -89,6 +89,7 @@ dialog::backdrop {
 }
 
 .flavor {
+    border: solid 0.0625rem #999;
 	display: flex;
 	flex-wrap: wrap;
 }
